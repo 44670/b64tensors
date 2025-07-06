@@ -1,0 +1,91 @@
+---
+alwaysApply: true
+description: "Base64 tensor encoding format specification"
+---
+
+# Base64 Tensor Encoding Format
+
+This document defines the standard format for encoding tensors as base64 strings in the b64tensors project.
+
+## Format Specification
+
+The base64 tensor encoding format follows this structure:
+
+```
+<data_type>##<shape>##<b64_encoded_data>
+```
+
+### Components
+
+1. **Data Type**: The tensor's data type
+2. **Shape**: The tensor's dimensions 
+3. **Base64 Data**: The tensor's raw bytes encoded as base64
+
+### Data Types
+
+Supported data types:
+- `float16` - 16-bit floating point
+- `float32` - 32-bit floating point  
+- `bfloat16` - Brain floating point (16-bit)
+- `int32` - 32-bit integer
+- `int64` - 64-bit integer
+- `uint8` - 8-bit unsigned integer
+- `bool` - Boolean
+
+### Shape Format
+
+The shape is represented as a comma-separated list of dimensions enclosed in parentheses:
+- `(100,200)` - 2D tensor with 100 rows and 200 columns
+- `(3,224,224)` - 3D tensor (e.g., RGB image)
+- `(1000,)` - 1D tensor with 1000 elements
+- `()` - 0D tensor (scalar)
+
+### Base64 Encoding
+
+The tensor data should be encoded by safetensors:
+1. Get the tensor's raw bytes using `safetensors.torch.save`. 
+2. Encode the bytes using base64 encoding
+```
+from safetensors.torch import save, load
+import base64
+encoded = base64.b64encode({'tensor': tensor}.tobytes()).decode('utf-8')
+```
+## Examples
+
+### 2D Float32 Tensor
+```
+float32##(100,200)##SGVsbG8gV29ybGQhIFRoaXMgaXMgYSBzYW1wbGUgYmFzZTY0IGVuY29kZWQgdGVuc29yIGRhdGE...
+```
+
+### 3D Float16 Tensor  
+```
+float16##(3,224,224)##QWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWg...
+```
+
+### 1D Integer Tensor
+```
+int32##(1000,)##MTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFF...
+```
+
+### Scalar Boolean
+```
+bool##()##...
+```
+
+## Implementation Notes
+
+- Use consistent delimiters (`##`) to separate components
+- Ensure base64 encoding is standard and URL-safe
+- Validate data type and shape before encoding/decoding
+
+## Usage in Code
+
+When implementing encoding/decoding functions:
+1. Parse the format string by splitting on `##`
+2. Validate the data type is supported
+3. Parse the shape tuple
+4. Decode the base64 data to bytes
+5. Reconstruct the tensor
+6. Verify the tensor's shape and data type
+
+This format enables efficient serialization and transmission of tensor data while maintaining type safety and shape information.
