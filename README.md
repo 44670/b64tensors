@@ -224,7 +224,7 @@ except ValueError as e:
 ### Setting up Development Environment
 
 ```bash
-git clone https://github.com/yourusername/b64tensors.git
+git clone https://github.com/44670/b64tensors.git
 cd b64tensors
 pip install -e .
 pip install pytest torch safetensors
