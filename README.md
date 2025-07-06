@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/b64tensors.svg)](https://badge.fury.io/py/b64tensors)
 [![Python Support](https://img.shields.io/pypi/pyversions/b64tensors.svg)](https://pypi.org/project/b64tensors/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A Python package for encoding and decoding PyTorch tensors as base64 strings using the b64tensor format specification.
 
