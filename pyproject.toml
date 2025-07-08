@@ -14,7 +14,7 @@ authors = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License 2.0 (Apache-2.0)",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -27,7 +27,7 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "safetensors>=0.6.0",
+    "safetensors>=0.5.3",
 ]
 
 [project.urls]

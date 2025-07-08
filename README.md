@@ -10,7 +10,7 @@ A Python package for encoding and decoding PyTorch tensors as base64 strings usi
 
 - 🚀 **Fast**: Built on safetensors for efficient serialization
 - 🔒 **Safe**: Type-safe encoding/decoding with validation
-- 📦 **Simple**: Easy-to-use API with just 4 functions
+- 📦 **Simple**: Easy-to-use API with just 2 functions
 - 🎯 **Comprehensive**: Supports all major PyTorch data types
 - 🔄 **Reliable**: Extensive test coverage and error handling
 
@@ -128,95 +128,22 @@ The b64tensor format follows this structure:
 
 **2D Float32 Tensor:**
 ```
-float32##(100,200)##SGVsbG8gV29ybGQhIFRoaXMgaXMgYSBzYW1wbGUgYmFzZTY0IGVuY29kZWQgdGVuc29yIGRhdGE...
+float32##(100,200)##...
 ```
 
 **3D Float16 Tensor:**
 ```
-float16##(3,224,224)##QWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWg...
+float16##(3,224,224)##...
 ```
 
 **1D Integer Tensor:**
 ```
-int32##(1000,)##MTIzNDU2Nzg5MGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFF...
+int32##(1000,)##...
 ```
 
 **Scalar Boolean:**
 ```
-bool##()##dHJ1ZQ==
-```
-
-## Advanced Usage
-
-### Working with Model Weights
-
-```python
-import torch
-import torch.nn as nn
-import b64tensors
-
-# Create a simple model
-model = nn.Linear(784, 10)
-
-# Encode all model parameters
-encoded_weights = b64tensors.encode_dict(dict(model.named_parameters()))
-
-# Save to file or send over network
-with open('model_weights.txt', 'w') as f:
-    for name, encoded_tensor in encoded_weights.items():
-        f.write(f"{name}: {encoded_tensor}\n")
-
-# Later, decode the weights
-decoded_weights = b64tensors.decode_dict(encoded_weights)
-
-# Load back into model
-for name, param in model.named_parameters():
-    param.data = decoded_weights[name]
-```
-
-### Batch Processing
-
-```python
-import torch
-import b64tensors
-
-# Process multiple tensors
-tensors = [
-    torch.randn(100, 200, dtype=torch.float32),
-    torch.randint(0, 10, (50, 50), dtype=torch.int32),
-    torch.randn(3, 224, 224, dtype=torch.float16)
-]
-
-# Encode all tensors
-encoded_tensors = [b64tensors.encode(t) for t in tensors]
-
-# Decode all tensors
-decoded_tensors = [b64tensors.decode(e) for e in encoded_tensors]
-
-# Verify they match
-for original, decoded in zip(tensors, decoded_tensors):
-    assert torch.equal(original, decoded)
-```
-
-## Error Handling
-
-The package provides comprehensive error handling:
-
-```python
-import b64tensors
-
-try:
-    # Invalid format
-    b64tensors.decode("invalid_format")
-except ValueError as e:
-    print(f"Error: {e}")
-
-try:
-    # Unsupported dtype
-    tensor = torch.complex(torch.randn(5, 5), torch.randn(5, 5))
-    b64tensors.encode(tensor)
-except ValueError as e:
-    print(f"Error: {e}")
+bool##()##...
 ```
 
 ## Development
@@ -245,22 +172,13 @@ python -m build
 ## Requirements
 
 - Python >= 3.8
-- PyTorch >= 1.10.0
-- safetensors >= 0.6.0
+- safetensors >= 0.5.3
+- This project does not require PyTorch while installing, but your environment should have PyTorch installed.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Changelog
-
-### 0.1.0
-- Initial release
-- Basic encode/decode functionality
-- Support for all major PyTorch data types
-- Dictionary encoding/decoding
-- Comprehensive test suite
