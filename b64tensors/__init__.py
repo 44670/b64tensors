@@ -11,7 +11,7 @@ import torch
 from safetensors.torch import save, load
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["encode", "decode", "encode_dict", "decode_dict"]
 
 
